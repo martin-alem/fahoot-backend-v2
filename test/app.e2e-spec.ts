@@ -15,10 +15,14 @@ describe('AppController (e2e)', () => {
     await app.init();
   });
 
-  it('/ (GET)', () => {
-    return request(app.getHttpServer())
+  it('/ (GET)', async () => {
+    await request(app.getHttpServer())
       .get('/')
       .expect(200)
-      .expect('Hello World!');
+      .expect((res) => {
+        expect(res.body).toHaveProperty('message', 'server up and running');
+        expect(res.body).toHaveProperty('timestamp');
+        expect(new Date(res.body.timestamp)).toBeInstanceOf(Date); // This checks if 'timestamp' is a valid date
+      });
   });
 });
