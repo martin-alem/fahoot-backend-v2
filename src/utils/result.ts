@@ -4,7 +4,12 @@ export default class Result<T> {
   private readonly error: string | null;
   private readonly errorCode: number | null;
 
-  constructor(success: boolean, data: T | null, error: string | null, errorCode: number | null) {
+  constructor(
+    success: boolean,
+    data: T | null,
+    error: string | null,
+    errorCode: number | null,
+  ) {
     this.success = success;
     this.data = data;
     this.error = error;

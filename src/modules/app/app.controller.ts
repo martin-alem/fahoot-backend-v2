@@ -1,7 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
 import { PingResponse } from '../../utils/interfaces';
-import Result from '../../utils/result';
 import { handleResult } from '../../utils/helper';
 
 @Controller()
@@ -11,6 +10,6 @@ export class AppController {
   @Get()
   ping(): PingResponse {
     const result = this.appService.ping();
-    return handleResult<PingResponse>(result)
+    return handleResult<PingResponse>(result);
   }
 }

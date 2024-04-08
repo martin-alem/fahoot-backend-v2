@@ -1,14 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import Result from '../../utils/result';
-import { PingResponse } from '../../utils/interfaces';
 
 describe('AppService', () => {
   let appService: AppService;
 
   beforeEach(async () => {
-
     const app: TestingModule = await Test.createTestingModule({
       controllers: [AppController],
       providers: [AppService],
@@ -21,12 +18,12 @@ describe('AppService', () => {
     it('should return a success Result object', async () => {
       const expectedResponse = {
         data: {
-          message: "server up and running",
-          timestamp: expect.any(String)
+          message: 'server up and running',
+          timestamp: expect.any(String),
         },
-        "error": null,
-        "errorCode": 200,
-        "success": true
+        error: null,
+        errorCode: 200,
+        success: true,
       };
 
       const result = appService.ping();

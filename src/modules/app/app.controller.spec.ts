@@ -6,14 +6,13 @@ import { PingResponse } from '../../utils/interfaces';
 
 describe('AppController', () => {
   let appController: AppController;
-  let appService: AppService;
 
   beforeEach(async () => {
     const mockPingResponse = new Result<PingResponse>(
       true,
-      { message: "server up and running", timestamp: new Date().toISOString() },
+      { message: 'server up and running', timestamp: new Date().toISOString() },
       null,
-      200
+      200,
     );
 
     const app: TestingModule = await Test.createTestingModule({
@@ -29,14 +28,13 @@ describe('AppController', () => {
     }).compile();
 
     appController = app.get<AppController>(AppController);
-    appService = app.get<AppService>(AppService);
   });
 
   describe('root', () => {
     it('should return a Result object with a message "server up and running"', async () => {
       const expectedResponse = {
-        message: "server up and running",
-        timestamp: expect.any(String)
+        message: 'server up and running',
+        timestamp: expect.any(String),
       };
 
       const result = appController.ping();
