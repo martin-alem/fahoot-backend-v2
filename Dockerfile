@@ -19,6 +19,7 @@ RUN npm run build
 # Remove development dependencies
 RUN npm prune --production
 
+
 EXPOSE 8080
 
 # Define the command to run your app using CMD which defines your runtime
