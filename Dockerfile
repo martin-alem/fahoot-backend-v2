@@ -7,14 +7,8 @@ WORKDIR /usr/src/app
 # Copy package.json and package-lock.json (or yarn.lock) into the working directory
 COPY package*.json ./
 
-# Install any dependencies
-RUN npm install
-
-# Install Nest CLI globally
-RUN npm install -g @nestjs/cli
-
-# If you are building your code for production
-RUN npm ci --only=production
+# Temporarily install all dependencies
+RUN npm ci
 
 # Bundle app source inside the Docker image
 COPY . .
@@ -22,7 +16,9 @@ COPY . .
 # Build the application
 RUN npm run build
 
-# Your application binds to port 3000 by default, expose it
+# Remove development dependencies
+RUN npm prune --production
+
 EXPOSE 8080
 
 # Define the command to run your app using CMD which defines your runtime
