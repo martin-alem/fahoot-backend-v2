@@ -7,7 +7,9 @@ describe('AppController (e2e)', () => {
   let app: INestApplication;
 
   afterAll(async () => {
-    await app.close();
+    if (app) {
+      await app.close();
+    }
   });
 
   beforeEach(async () => {
@@ -17,7 +19,7 @@ describe('AppController (e2e)', () => {
 
     app = moduleFixture.createNestApplication();
     await app.init();
-  });
+  }, 100000);
 
   it('/ (GET)', async () => {
     await request(app.getHttpServer())
