@@ -7,6 +7,8 @@ import { CreateUserDto } from './dto/create_user.dto';
 import Result from '../../utils/result';
 import { AuthenticationType } from '../../utils/constant';
 import { UserResponseDto } from './dto/user_response.dto';
+import { UpdateUserDto } from './dto/update_user.dto';
+import { UpdateEmailDto } from './dto/update_email.dto';
 
 
 @Injectable()
@@ -49,13 +51,41 @@ export class UserService {
     return new Result<UserResponseDto>(true, new UserResponseDto(user), null, HttpStatus.OK)
   }
 
+  async updateUserInfo(updateUserDto: UpdateUserDto, id: number): Promise<Result<UserResponseDto | null>> {
+
+    const user = await this.usersRepository.findOneBy({ id });
+    if (!user) {
+      return new Result<null>(false, null, "User not found", HttpStatus.NOT_FOUND);
+    }
+
+    Object.assign(user, updateUserDto);
+
+    await this.usersRepository.save(user);
+
+    return await this.getUserById(id);
+  }
+
+  async updateEmail(updateEmailDto: UpdateEmailDto, id: number): Promise<Result<boolean | null>>{
+    const user = await this.usersRepository.findOneBy({ id });
+    if (!user) {
+      return new Result<null>(false, null, "User not found", HttpStatus.NOT_FOUND);
+    }
+
+    Object.assign(user, {verified: false, email: updateEmailDto.email})
+
+    await this.usersRepository.save(user)
+
+    //TODO: send verification email
+
+    return new Result<boolean>(true, true, null, HttpStatus.OK)
+  }
 
   async removeUser(id: number): Promise<Result<UserResponseDto | null>>{
-    const getResult = await this.getUserById(id)
-    if (!getResult.isSuccess()){
-      return getResult
+    const user = await this.usersRepository.findOneBy({ id });
+    if (!user) {
+      return new Result<UserResponseDto | null>(false, null, "User not found", HttpStatus.NOT_FOUND);
     }
     await this.usersRepository.delete({id})
-    return new Result<UserResponseDto>(true, getResult.getData(), null, HttpStatus.OK)
+    return new Result<UserResponseDto>(true, user, null, HttpStatus.OK)
   }
 }

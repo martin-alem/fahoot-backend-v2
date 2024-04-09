@@ -9,6 +9,7 @@ export class UserResponseDto {
   lastName: string;
   email: string;
   verified: boolean;
+  picture: string;
   authenticationType: AuthenticationType;
   createdAt: Date;
   updatedAt: Date;
@@ -19,6 +20,7 @@ export class UserResponseDto {
     this.lastName = user.lastName;
     this.email = user.email;
     this.verified = user.verified;
+    this.picture = user.picture;
     this.authenticationType = user.authenticationType;
     this.createdAt = user.createdAt;
     this.updatedAt = user.updatedAt;

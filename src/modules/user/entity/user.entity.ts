@@ -24,6 +24,9 @@ export class User {
   @Column({ default: false })
   verified: boolean;
 
+  @Column({default: null})
+  picture: string;
+
   @Column({
     type: "enum",
     enum: AuthenticationType,
@@ -42,8 +45,8 @@ export class User {
     this.email = this.email.toLowerCase();
   }
 
-  @BeforeInsert()
   @BeforeUpdate()
+  @BeforeInsert()
   nameToLowerCase() {
     this.firstName = this.firstName.toLowerCase();
     this.lastName = this.lastName.toLowerCase();
