@@ -14,7 +14,9 @@ import { APP_GUARD } from '@nestjs/core';
     ConfigModule.forRoot({
       isGlobal: true,
       validationSchema: Joi.object({
-        NODE_ENV: Joi.string().valid('development', 'production').default('development'),
+        NODE_ENV: Joi.string()
+          .valid('development', 'production')
+          .default('development'),
         DATABASE_HOST: Joi.string().required(),
         DATABASE_NAME: Joi.string().required(),
         DATABASE_PORT: Joi.string().required(),
@@ -43,7 +45,8 @@ import { APP_GUARD } from '@nestjs/core';
         SPACES_REGION: Joi.string().required(),
         SPACES_ENDPOINT: Joi.string().required(),
       }),
-    }),TypeOrmModule.forRootAsync({
+    }),
+    TypeOrmModule.forRootAsync({
       imports: [ConfigModule], // Ensure ConfigModule is imported here
       inject: [ConfigService], // Inject ConfigService to use in the factory
       useFactory: async (configService: ConfigService) => ({
@@ -57,12 +60,16 @@ import { APP_GUARD } from '@nestjs/core';
         synchronize: configService.get<string>('NODE_ENV') === 'development',
         autoLoadEntities: true,
       }),
-    }), NotificationModule],
+    }),
+    NotificationModule,
+  ],
   controllers: [AppController],
-  providers: [AppService,     {
-    provide: APP_GUARD,
-    useClass: ThrottlerGuard,
-  },],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
+  ],
 })
-export class AppModule {
-}
+export class AppModule {}
