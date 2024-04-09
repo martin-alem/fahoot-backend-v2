@@ -3,4 +3,4 @@ export enum AuthenticationType {
   Social = 'Social',
 }
 
-export const DEFAULT_SIGN_TOKEN_TTL = 3600 // in seconds = 1 hour
+export const DEFAULT_SIGN_TOKEN_TTL = 86400 // in seconds = 24 hours
