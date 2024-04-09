@@ -11,6 +11,35 @@ on:
 jobs:
   test_and_quality_check:
     runs-on: ubuntu-latest
+    env:
+        NODE_ENV: 'test'
+        DATABASE_HOST: ${{ secrets.DATABASE_HOST }}
+        DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
+        DATABASE_PORT: ${{ secrets.DATABASE_PORT }}
+        DATABASE_USERNAME: ${{ secrets.DATABASE_USERNAME }}
+        DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+        COOKIE_SECRET: ${{ secrets.COOKIE_SECRET }}
+        PORT: 8080
+        FRONTEND_URL: ${{ secrets.FRONTEND_URL }}
+        JWT_SECRET: ${{ secrets.JWT_SECRET }}
+        JWT_TOKEN_AUDIENCE: ${{ secrets.JWT_TOKEN_AUDIENCE }}
+        JWT_TOKEN_ISSUER: ${{ secrets.JWT_TOKEN_ISSUER }}
+        REDIS_PASSWORD: ${{ secrets.REDIS_PASSWORD }}
+        REDIS_HOST: ${{ secrets.REDIS_HOST }}
+        REDIS_PORT: ${{ secrets.REDIS_PORT }}
+        CLIENT_API_KEY: ${{ secrets.CLIENT_API_KEY }}
+        VERIFY_EMAIL_URL: ${{ secrets.VERIFY_EMAIL_URL }}
+        PASSWORD_RESET_URL: ${{ secrets.PASSWORD_RESET_URL }}
+        GOOGLE_CLIENT_KEY: ${{ secrets.GOOGLE_CLIENT_KEY }}
+        GOOGLE_SECRET_KEY: ${{ secrets.GOOGLE_SECRET_KEY }}
+        MAILER_SEND_TOKEN: ${{ secrets.MAILER_SEND_TOKEN }}
+        MAILER_SEND_EMAIL: ${{ secrets.MAILER_SEND_EMAIL }}
+        WELCOME_EMAIL_TEMPLATE_ID: ${{ secrets.WELCOME_EMAIL_TEMPLATE_ID }}
+        SPACES_KEY: ${{ secrets.SPACES_KEY }}
+        SPACES_SECRET: ${{ secrets.SPACES_SECRET }}
+        SPACES_BUCKET: ${{ secrets.SPACES_BUCKET }}
+        SPACES_REGION: ${{ secrets.SPACES_REGION }}
+        SPACES_ENDPOINT: ${{ secrets.SPACES_ENDPOINT }}
     steps:
       - uses: actions/checkout@v2
       - name: Set up Node.js
