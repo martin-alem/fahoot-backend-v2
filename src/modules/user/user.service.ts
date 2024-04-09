@@ -48,7 +48,8 @@ export class UserService {
       const newUser = this.usersRepository.create(createUserDto);
 
       if (createUserDto.authenticationType === AuthenticationType.Email && newUser.password) {
-        newUser.password = await bcrypt.hash(newUser.password, 10); // Salt rounds = 10
+        const hashedPassword = await this.sharedService.hash(newUser.password)
+        newUser.password = hashedPassword.getData()
       }else{
         newUser.password = null
       }
