@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Res } from '@nestjs/common';
+import { Body, Controller, Delete, Post, Res } from '@nestjs/common';
 import { SharedService } from '../shared/shared.service';
 import { Response } from 'express';
 import { ConfigService } from '@nestjs/config';
@@ -6,7 +6,7 @@ import { AuthenticationService } from './authentication.service';
 import { Throttle } from '@nestjs/throttler';
 import { SignUpDto } from './dto/sign_up.dto';
 import { UserResponseDto } from '../user/dto/user_response.dto';
-import { handleResult, setCookie } from '../../utils/helper';
+import { clearCookie, handleResult, setCookie } from '../../utils/helper';
 import { ACCESS_TOKEN_NAME, DEFAULT_SIGN_TOKEN_TTL } from '../../utils/constant';
 import { SignInDto } from './dto/sign_in.dto';
 
@@ -61,4 +61,9 @@ export class AuthenticationController {
     return handleResult(result);
   }
 
+  @Throttle({ default: { limit: 5, ttl: 100000 } })
+  @Delete('/logout')
+  logout(@Res({ passthrough: true }) response: Response): void {
+    clearCookie(response, {}, ACCESS_TOKEN_NAME);
+  }
 }
