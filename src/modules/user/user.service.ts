@@ -121,6 +121,28 @@ export class UserService {
     }
   }
 
+  async getUserByEmail(email: string): Promise<Result<User | null>> {
+    try {
+      const user = await this.usersRepository.findOneBy({ email: email });
+      if (!user) {
+        return new Result<null>(
+          false,
+          null,
+          'no user found',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+      return new Result<User>(true, user, null, HttpStatus.OK);
+    } catch (error) {
+      return new Result<User | null>(
+        false,
+        null,
+        'error while getting user by email',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
   async updateUserInfo(
     updateUserDto: UpdateUserDto,
     id: number,
