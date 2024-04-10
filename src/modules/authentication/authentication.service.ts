@@ -8,7 +8,8 @@ import Result from '../../utils/result';
 import { UserResponseDto } from '../user/dto/user_response.dto';
 import { EmailNotificationRequest } from '../../utils/interfaces';
 import { capitalizeFirstLetter } from '../../utils/helper';
-import { Throttle } from '@nestjs/throttler';
+import { SignInDto } from './dto/sign_in.dto';
+import { AuthenticationType } from '../../utils/constant';
 
 @Injectable()
 export class AuthenticationService {
@@ -57,4 +58,31 @@ export class AuthenticationService {
       return new Result<UserResponseDto | null>(false, null, "error while trying to sign up", HttpStatus.INTERNAL_SERVER_ERROR)
     }
   }
+
+  async signIn(signInDto: SignInDto): Promise<Result<UserResponseDto | null>> {
+    try {
+      const userResult = await this.userService.getUserByEmail(signInDto.email);
+      if (!userResult.isSuccess()) {
+        return new Result<UserResponseDto | null>(false, null, "Invalid email or password.", HttpStatus.UNAUTHORIZED);
+      }
+
+      const userData = userResult.getData();
+
+      if (userData.authenticationType === AuthenticationType.Email) {
+        if (!signInDto.password) {
+          return new Result<UserResponseDto | null>(false, null, "Password is required for email sign-in.", HttpStatus.BAD_REQUEST);
+        }
+
+        const passwordMatch = await this.sharedService.compare(signInDto.password, userData.password);
+        if (!passwordMatch.getData()) {
+          return new Result<UserResponseDto | null>(false, null, "Invalid email or password.", HttpStatus.UNAUTHORIZED);
+        }
+      }
+
+      return new Result<UserResponseDto | null>(true, new UserResponseDto(userData), null, HttpStatus.OK);
+    } catch (error) {
+      return new Result<UserResponseDto | null>(false, null, "Error while trying to sign in.", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
 }
