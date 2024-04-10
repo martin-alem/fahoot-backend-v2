@@ -132,12 +132,7 @@ export class UserService {
           HttpStatus.BAD_REQUEST,
         );
       }
-      return new Result<User>(
-        true,
-        user,
-        null,
-        HttpStatus.OK,
-      );
+      return new Result<User>(true, user, null, HttpStatus.OK);
     } catch (error) {
       return new Result<User | null>(
         false,

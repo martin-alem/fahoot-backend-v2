@@ -1,6 +1,6 @@
 import { HttpException } from '@nestjs/common';
 import Result from './result';
-import {Response} from "express"
+import { Response } from 'express';
 
 export function handleResult<T>(result: Result<T | null>): T {
   if (!result.isSuccess() || result.getData() === null) {
@@ -16,8 +16,13 @@ export function handleResult<T>(result: Result<T | null>): T {
 export const capitalizeFirstLetter = (str: string) =>
   str.charAt(0).toUpperCase() + str.slice(1);
 
-
-export function setCookie(response: Response, name: string, value: string, ttl: number, options: { [key: string]: string } = {}): void {
+export function setCookie(
+  response: Response,
+  name: string,
+  value: string,
+  ttl: number,
+  options: { [key: string]: string } = {},
+): void {
   const defaultOptions = {
     secure: process.env.NODE_ENV === 'production',
     httpOnly: process.env.NODE_ENV === 'production',
@@ -28,7 +33,11 @@ export function setCookie(response: Response, name: string, value: string, ttl: 
   response.cookie(name, value, { ...defaultOptions, ...options });
 }
 
-export function clearCookie(response: Response, options: { [key: string]: string } = {}, ...names: string[]): void {
+export function clearCookie(
+  response: Response,
+  options: { [key: string]: string } = {},
+  ...names: string[]
+): void {
   const defaultOptions = {
     secure: process.env.NODE_ENV === 'production',
     httpOnly: process.env.NODE_ENV === 'production',
