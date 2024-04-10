@@ -7,10 +7,13 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import * as Joi from 'joi';
 import { APP_GUARD } from '@nestjs/core';
+import { User } from '../user/entity/user.entity';
+import { AuthenticationModule } from '../authentication/authentication.module';
+import { UserModule } from '../user/user.module';
 
 @Module({
   imports: [
-    ThrottlerModule.forRoot(),
+    ThrottlerModule.forRoot([{ limit: 10, ttl: 30000 }]),
     ConfigModule.forRoot({
       isGlobal: true,
       validationSchema: Joi.object({
@@ -54,12 +57,14 @@ import { APP_GUARD } from '@nestjs/core';
         username: configService.get<string>('DATABASE_USERNAME'),
         password: configService.get<string>('DATABASE_PASSWORD'),
         database: configService.get<string>('DATABASE_NAME'),
-        entities: [],
+        entities: [User],
         synchronize: configService.get<string>('NODE_ENV') === 'development',
         autoLoadEntities: true,
       }),
     }),
     NotificationModule,
+    AuthenticationModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [

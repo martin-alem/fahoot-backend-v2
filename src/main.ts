@@ -3,6 +3,8 @@ import { AppModule } from './modules/app/app.module';
 import helmet from 'helmet';
 import * as cookieParser from 'cookie-parser';
 import { InternalServerErrorException } from '@nestjs/common';
+import { ValidationPipe } from '@nestjs/common';
+import { AllExceptionsFilter } from './exception/global.exception';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -29,6 +31,15 @@ async function bootstrap() {
       'Authorization',
     ], // Allow necessary headers
   });
+
+  app.useGlobalFilters(new AllExceptionsFilter());
+
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      disableErrorMessages: process.env.NODE_ENV === 'production',
+    }),
+  );
 
   await app.listen(process.env.PORT ?? 8080);
 }

@@ -23,3 +23,9 @@ export interface EmailNotificationRequest extends NotificationRequest {
 export interface NotificationService {
   send(request: NotificationRequest): Promise<void>;
 }
+
+export interface JWTUser {
+  id: number;
+  email: string;
+  verified: boolean;
+}

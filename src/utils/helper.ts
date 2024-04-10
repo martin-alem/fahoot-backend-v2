@@ -11,3 +11,6 @@ export function handleResult<T>(result: Result<T | null>): T {
   // so we use a type assertion to tell it that result.getData() is of type T.
   return result.getData() as T;
 }
+
+export const capitalizeFirstLetter = (str: string) =>
+  str.charAt(0).toUpperCase() + str.slice(1);
