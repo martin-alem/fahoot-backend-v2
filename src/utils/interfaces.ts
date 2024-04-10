@@ -24,7 +24,7 @@ export interface NotificationService {
   send(request: NotificationRequest): Promise<void>;
 }
 
-export interface JWTUser{
+export interface JWTUser {
   id: number;
   email: string;
   verified: boolean;

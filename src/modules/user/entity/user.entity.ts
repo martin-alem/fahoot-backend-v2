@@ -1,6 +1,11 @@
 import {
-  Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn,
-  BeforeInsert, BeforeUpdate
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+  BeforeInsert,
+  BeforeUpdate,
 } from 'typeorm';
 import { AuthenticationType } from '../../../utils/constant';
 
@@ -24,11 +29,11 @@ export class User {
   @Column({ default: false })
   verified: boolean;
 
-  @Column({default: null})
+  @Column({ default: null })
   picture: string;
 
   @Column({
-    type: "enum",
+    type: 'enum',
     enum: AuthenticationType,
   })
   authenticationType: AuthenticationType;

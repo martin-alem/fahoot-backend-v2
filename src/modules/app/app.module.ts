@@ -13,7 +13,7 @@ import { UserModule } from '../user/user.module';
 
 @Module({
   imports: [
-    ThrottlerModule.forRoot(),
+    ThrottlerModule.forRoot([{ limit: 10, ttl: 30000 }]),
     ConfigModule.forRoot({
       isGlobal: true,
       validationSchema: Joi.object({
@@ -64,7 +64,7 @@ import { UserModule } from '../user/user.module';
     }),
     NotificationModule,
     AuthenticationModule,
-    UserModule
+    UserModule,
   ],
   controllers: [AppController],
   providers: [

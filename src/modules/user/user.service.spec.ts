@@ -8,20 +8,18 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 
 describe('UserService', () => {
   let service: UserService;
-  let mockRepository = {
+  const mockRepository = {
     findOneBy: jest.fn(),
     create: jest.fn(),
     save: jest.fn(),
-  }
-  let mockSharedService= {
-    hash: jest.fn()
-  }
-  let mockEmailNotificationService= {
-    send: jest.fn()
-  }
-  let mockConfigService= {}
-
-
+  };
+  const mockSharedService = {
+    hash: jest.fn(),
+  };
+  const mockEmailNotificationService = {
+    send: jest.fn(),
+  };
+  const mockConfigService = {};
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -29,20 +27,20 @@ describe('UserService', () => {
         UserService,
         {
           provide: getRepositoryToken(User),
-          useValue:mockRepository
+          useValue: mockRepository,
         },
         {
           provide: SharedService,
-          useValue: mockSharedService
+          useValue: mockSharedService,
         },
         {
           provide: EmailNotificationService,
-          useValue: mockEmailNotificationService
+          useValue: mockEmailNotificationService,
         },
         {
           provide: ConfigService,
-          useValue:mockConfigService
-        }
+          useValue: mockConfigService,
+        },
       ],
     }).compile();
 

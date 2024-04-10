@@ -10,7 +10,7 @@ export function IsValidPassword(validationOptions?: ValidationOptions) {
       propertyName: propertyName,
       options: validationOptions,
       validator: {
-        validate(value: any, args): boolean {
+        validate(value: any): boolean {
           return typeof value === 'string' && PWD_REGEX.test(value); // You can return a Promise<boolean> here as well, if you want to make async validation
         },
         defaultMessage(args): string {

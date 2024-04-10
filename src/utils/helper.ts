@@ -12,5 +12,5 @@ export function handleResult<T>(result: Result<T | null>): T {
   return result.getData() as T;
 }
 
-
-export const capitalizeFirstLetter = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
+export const capitalizeFirstLetter = (str: string) =>
+  str.charAt(0).toUpperCase() + str.slice(1);

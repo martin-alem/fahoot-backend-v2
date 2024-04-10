@@ -9,28 +9,31 @@ import { ConfigService } from '@nestjs/config';
 
 describe('UserController', () => {
   let controller: UserController;
-  let mockRepository = {
+  const mockRepository = {
     findOneBy: jest.fn(),
     create: jest.fn(),
     save: jest.fn(),
   };
-  let mockSharedService = {
+  const mockSharedService = {
     hash: jest.fn(),
   };
-  let mockEmailNotificationService = {
+  const mockEmailNotificationService = {
     send: jest.fn(),
   };
-  let mockConfigService = {};
+  const mockConfigService = {};
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [UserController],
-      providers: [UserService, {
-        provide: getRepositoryToken(User),
-        useValue: mockRepository,
-      }, {
-        provide: SharedService,
-        useValue: mockSharedService,
-      },
+      providers: [
+        UserService,
+        {
+          provide: getRepositoryToken(User),
+          useValue: mockRepository,
+        },
+        {
+          provide: SharedService,
+          useValue: mockSharedService,
+        },
         {
           provide: EmailNotificationService,
           useValue: mockEmailNotificationService,

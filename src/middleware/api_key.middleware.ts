@@ -1,4 +1,9 @@
-import { ForbiddenException, Injectable, InternalServerErrorException, NestMiddleware } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  InternalServerErrorException,
+  NestMiddleware,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Request, Response, NextFunction } from 'express';
 
@@ -35,4 +40,3 @@ export class APIKeyMiddleware implements NestMiddleware {
     next();
   }
 }
-
